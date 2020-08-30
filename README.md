@@ -1,23 +1,23 @@
-# create virtual environment
+# Create virtual environment
 py -m venv .venv
-# activate virtual environment
+# Activate virtual environment
 ./venv/Scripts/Activate.ps1
-# install all module requirements
+# Install all module requirements
 py create_requirements
 
 pip install -r requirements.txt
 
-# algorithm 
-1. select next company ticker from tickers list 'tickers.txt' (for example, MOMO)
-2. select next financial indicator from financial indicators list below (for example, Sales growth past 5 years)
-3. get financials data from links:
+# Algorithm 
+1. Select next company ticker from tickers list 'tickers.txt' (for example, MOMO)
+2. Select next financial indicator from financial indicators list below (for example, Sales growth past 5 years)
+3. Get financials data from links:
 - https://www.marketwatch.com/investing/stock/ccl/financials
 - https://www.marketwatch.com/investing/stock/ccl/financials/balance-sheet
 - https://www.marketwatch.com/investing/stock/ccl/financials/cash-flow
 
 to calculate certain indicator value
 
-4. calculate the indicator for the ticker and fill the indicator value in the table
+4. Calculate the indicator for the ticker and fill the indicator value in the table
 
 | Ticker    | Sales growth past 5 years |
 | -         | -                         |
@@ -26,25 +26,25 @@ to calculate certain indicator value
 | ...       | ...                       |
 | EPAM      | Value n                   |
 
-5. goto 2. while all indicators will be calculated
-6. goto 1. while all tickers will be handled
+5. Goto 2. while all indicators will be calculated
+6. Goto 1. while all tickers will be handled
 
-7. select next indicator to sort the table
-8. sort the table by the indicator value by descending or ascending depends on indicator (for example, for Sales growth past 5 years - BY DESCENDING, it means THE BIGGER THE BETTER) and get and save index of place for each ticker
-9. goto 7. while all indicators will be handled
+7. Select next indicator to sort the table
+8. Sort the table by the indicator value by descending or ascending depends on indicator (for example, for Sales growth past 5 years - BY DESCENDING, it means THE BIGGER THE BETTER) and get and save index of place for each ticker
+9. Goto 7. while all indicators will be handled
 
-10. select next ticker
-11. calculate sum of places for certain ticker and save as ticker points
-12. goto 10.
+10. Select next ticker
+11. Calculate sum of places for certain ticker and save as ticker points
+12. Goto 10.
 
-13. sort of result table by ticker points
+13. Sort of result table by ticker points
 
-# know about financials indicators
-request to google 'financial indicators of company'
+# Know about financials indicators
+Request to google 'financial indicators of company'
 links to help:
 - https://www.scoro.com/blog/financial-kpis-for-financial-kpi-dashboard/
 - https://www.investopedia.com/financial-edge/0910/6-basic-financial-ratios-and-what-they-tell-you.aspx
 
-indicators list:
+Indicators list:
 - Sales growth past 5 years
 - ...
