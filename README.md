@@ -45,6 +45,11 @@ links to help:
 - https://www.scoro.com/blog/financial-kpis-for-financial-kpi-dashboard/
 - https://www.investopedia.com/financial-edge/0910/6-basic-financial-ratios-and-what-they-tell-you.aspx
 
-Indicators list:
-- Sales growth past 5 years
+Fundamental indicators list:
+- Sales growth past 5 years (DESC, the bigger the better)
+- ...
+Technical indicators list:
+- Performance for last three month (ASC, the lower the better)
+- Performance for last month (ASC, the lower the better)
+- Performance for last week (ASC, the lower the better)
 - ...
