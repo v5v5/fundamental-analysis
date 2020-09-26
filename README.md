@@ -10,10 +10,13 @@ pip install -r requirements.txt
 # Algorithm 
 1. Select next company ticker from tickers list 'tickers.txt' (for example, MOMO)
 2. Select next financial indicator from financial indicators list below (for example, Sales growth past 5 years)
-3. Get financials data from links:
+3. Get fundamental financials data from links:
 - https://www.marketwatch.com/investing/stock/ccl/financials
 - https://www.marketwatch.com/investing/stock/ccl/financials/balance-sheet
 - https://www.marketwatch.com/investing/stock/ccl/financials/cash-flow
+
+or get technical financials data from link
+- https://api.tiingo.com/tiingo/daily/{{ticker}}/prices
 
 to calculate certain indicator value
 
