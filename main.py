@@ -1,27 +1,77 @@
 def get_tickers():
     file_tickers = './data/tickers.txt'
     with open(file_tickers, 'r') as file:
-        lines = file.readlines()
-    return {l.replace('_SPB', '') for l in lines}
+        lines = file.read().splitlines()
+        return {l.replace('_SPB', '') for l in lines}
 
-def get_ticker_financials():
+
+def format_number(number: str) -> float:
+    if (number == '-'):
+        return 0
+
+    n = number.replace(
+        '(', '-'
+    ).replace(
+        ')', ''
+    ).replace(
+        'B', ''
+    ).replace(
+        'M', ''
+    ).replace(
+        ',', ''
+    ).replace(
+        '%', ''
+    )
+
+    f = float(n)
+
+    if ("B" in number):
+        f *= 1e+9
+    elif ("M" in number):
+        f *= 1e+6
+
+    return f
+
+
+def get_ticker_financials(ticker):
     import requests
     from lxml import html
     import financial_sources
 
-    page = requests.get(financial_sources.url_financials)
-    source_code = html.fromstring(page.content) 
+    print(f'--- TICKER: {ticker} ---')
+    for statement_name, url in financial_sources.urls.items():
+        print(f'--- STATEMENT: {statement_name} ---')
+        link = url.substitute(ticker=ticker)
 
-    for key, value in financial_sources.locators.items():
-        print(key, ':', source_code.xpath(value.substitute(index=financial_sources.indexes[0]))[0].text)
+        page = requests.get(link)
+        content = html.fromstring(page.content)
+
+        locators = financial_sources.locators[statement_name]
+        for locator_name, locator_xpath in locators.items():
+            current_year_index = financial_sources.indexes[0]
+            xpath = locator_xpath.substitute(index=current_year_index)
+            print(xpath)
+            try:
+                value = content.xpath(xpath)[0].text_content()
+            except ValueError:
+                print(f'{locator_name}: NOT EXISTS')
+                continue
+
+            try:
+                number = format_number(value)
+            except ValueError:
+                print(f'{locator_name}: CAN NOT FORMAT THE VALUE \'{value}\'')
+                continue
+
+            print(f'{locator_name}: {number}')
+
 
 def analysis():
     # tickers = get_tickers()
     # for ticker in tickers:
-        ticker = 'BMRN'
-        # financials = get_ticker_financials()
-        get_ticker_financials()
-        print(ticker, end='')
+    ticker = 'CMA'
+    get_ticker_financials(ticker)
+
 
 if __name__ == "__main__":
     analysis()

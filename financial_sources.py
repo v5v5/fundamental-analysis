@@ -1,13 +1,17 @@
 from string import Template
 
-url_financials = Template('https://www.marketwatch.com/investing/stock/${ticker}/financials')
+statement_income = 'Income Statement'
+statement_balance_sheet = 'Balance Sheet'
+statement_cash_flow = 'Cash Flow Statement'
+
+url_income_statement = Template('https://www.marketwatch.com/investing/stock/${ticker}/financials')
 url_balance_sheet = Template('https://www.marketwatch.com/investing/stock/${ticker}/financials/balance-sheet')
-url_cash_flow = Template('https://www.marketwatch.com/investing/stock/${ticker}/financials/cash-flow')
+url_cash_flow_statement = Template('https://www.marketwatch.com/investing/stock/${ticker}/financials/cash-flow')
 
 urls = {
-    'Income Statement': url_financials,
-    'Balance Sheet': url_balance_sheet,
-    'Cash Flow Statement': url_cash_flow
+    statement_income: url_income_statement,
+    statement_balance_sheet: url_balance_sheet,
+    statement_cash_flow: url_cash_flow_statement,
 }
 
 indexes = [6,5,4,3,2]
@@ -28,8 +32,10 @@ net_income = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[28]/td[${
 
 total_current_assets = Template('//*[@id="maincontent"]/div[1]/table[1]/tbody/tr[20]/td[${index}]')
 total_assets = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[16]/td[${index}]')
-total_liabilities = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[24]/td[${index}]')
-common_equity_total = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[30]/td[${index}]')
+# total_liabilities = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[24]/td[${index}]')
+total_liabilities = Template('//td[text()="Total Liabilities"]/../td[${index}]')
+# common_equity_total = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[30]/td[${index}]')
+common_equity_total = Template('//td[contains(text(),"Common Equity (Total)")]/../td[${index}]')
 total_shareholders_equity = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[39]/td[${index}]')
 accumulated_minority_interest = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[41]/td[${index}]')
 total_equity = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[42]/td[${index}]')
@@ -40,12 +46,13 @@ net_investing_cash_flow = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody
 net_financing_cash_flow = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[17]/td[${index}]')
 free_cash_flow = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[23]/td[${index}]')
 
-locators = {
+locators_income_statement = {
     'Sales/Revenue': sales_revenue,
     'Cost of Goods Sold (COGS) incl. D&A': cost_of_goods_sold,
     'Depreciation & Amortization Expense': depreciation_amortization_expense,
     'Gross Income': gross_income,
     'SG&A Expense': sga_expense,
+    'Equity in Affiliates (Pretax)': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[10]/td[${index}]'),
     'Interest Expense': interest_expense,
     'Pretax Income': pretax_income,
     'Income Tax': income_tax,
@@ -55,7 +62,9 @@ locators = {
     'EPS (Basic)': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[38]/td[${index}]'),
     'EPS (Diluted)': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[41]/td[${index}]'),
     'EBITDA': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[44]/td[${index}]'),
+}
 
+locators_balance_sheet = {
     'Total Current Assets': total_current_assets,
     'Total Assets': total_assets,
     'Total Liabilities': total_liabilities,
@@ -64,9 +73,17 @@ locators = {
     'Accumulated Minority Interest': accumulated_minority_interest,
     'Total Equity': total_equity,
     'Liabilities & Shareholders\' Equity': liabilities_shareholders_equity,
+}
 
+locators_cash_flow_statement = {
     'Net Operating Cash Flow': net_operating_cash_flow,
     'Net Investing Cash Flow': net_investing_cash_flow,
     'Net Financing Cash Flow': net_financing_cash_flow,
     'Free Cash Flow': free_cash_flow,
+}
+
+locators = {
+    statement_income: locators_income_statement,
+    statement_balance_sheet: locators_balance_sheet,
+    statement_cash_flow: locators_cash_flow_statement,
 }
