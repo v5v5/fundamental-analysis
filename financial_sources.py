@@ -48,10 +48,8 @@ net_investing_cash_flow = Template('//td[normalize-space()="Net Investing Cash F
 net_financing_cash_flow = Template('//td[normalize-space()="Net Financing Cash Flow"]/../td[${index}]')
 free_cash_flow = Template('//td[normalize-space()="Free Cash Flow"]/../td[${index}]')
 
-# TODO
 def locator_template(locator_name: str) -> Template:
-    # Template(f'//td[normalize-space()="{locator_name}"]/../td[${index}]')
-    pass
+    return Template(f'//td[normalize-space()="{locator_name}"]/../td[${{index}}]')
 
 locators_income_statement = {
     'Sales/Revenue': sales_revenue,
