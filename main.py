@@ -7,7 +7,7 @@ def get_tickers():
 
 def format_number(number: str) -> float:
     if (number == '-'):
-        return 0
+        raise ValueError()
 
     n = number.replace(
         '(', '-'
@@ -43,23 +43,29 @@ def get_ticker_financials(ticker):
         print(f'--- STATEMENT: {statement_name} ---')
         link = url.substitute(ticker=ticker)
 
-        page = requests.get(link)
+        try:
+            page = requests.get(link)
+        except:
+            print(f'Can not get link from url {link}')
+            continue
         content = html.fromstring(page.content)
 
         locators = financial_sources.locators[statement_name]
         for locator_name, locator_xpath in locators.items():
             current_year_index = financial_sources.indexes[0]
             xpath = locator_xpath.substitute(index=current_year_index)
-            print(xpath)
             try:
                 value = content.xpath(xpath)[0].text_content()
-            except ValueError:
+            except Exception:
                 print(f'{locator_name}: NOT EXISTS')
                 continue
 
             try:
                 number = format_number(value)
             except ValueError:
+                print(f'{locator_name}: -')
+                continue
+            except:
                 print(f'{locator_name}: CAN NOT FORMAT THE VALUE \'{value}\'')
                 continue
 
@@ -67,10 +73,10 @@ def get_ticker_financials(ticker):
 
 
 def analysis():
-    # tickers = get_tickers()
-    # for ticker in tickers:
-    ticker = 'CMA'
-    get_ticker_financials(ticker)
+    tickers = get_tickers()
+    for ticker in tickers:
+    # ticker = 'CMA'
+        get_ticker_financials(ticker)
 
 
 if __name__ == "__main__":

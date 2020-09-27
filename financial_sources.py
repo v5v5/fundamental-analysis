@@ -16,35 +16,42 @@ urls = {
 
 indexes = [6,5,4,3,2]
 
-sales_revenue = Template('//*[@id="maincontent"]/div[1]/table[1]/tbody/tr[1]/td[${index}]')
-cost_of_goods_sold = Template('//*[@id="maincontent"]/div[1]/table[1]/tbody/tr[3]/td[${index}]')
-depreciation_amortization_expense = Template('//*[@id="maincontent"]/div[1]/table[1]/tbody/tr[5]/td[${index}]')
-gross_income = Template('//*[@id="maincontent"]/div[1]/table[1]/tbody/tr[9]/td[${index}]')
-sga_expense = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[1]/td[${index}]')
-non_operating_income_expense = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[8]/td[${index}]')
-non_operating_interest_income = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[9]/td[${index}]')
-interest_expense = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[11]/td[${index}]')
-pretax_income = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[15]/td[${index}]')
-income_tax = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[18]/td[${index}]')
-consolidated_net_income = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[26]/td[${index}]')
-minority_interest_expense = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[27]/td[${index}]')
-net_income = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[28]/td[${index}]')
+sales_revenue = Template('//td[normalize-space()="Sales/Revenue"]/../td[${index}]')
+cost_of_goods_sold = Template('//td[normalize-space()="Cost of Goods Sold (COGS) incl. D&A"]/../td[${index}]')
+depreciation_amortization_expense = Template('//td[normalize-space()="Depreciation & Amortization Expense"]/../td[${index}]')
+gross_income = Template('//td[normalize-space()="Gross Income"]/../td[${index}]')
+sga_expense = Template('//td[normalize-space()="SG&A Expense"]/../td[${index}]')
+equity_in_affiliates_pretax = Template('//td[normalize-space()="Equity in Affiliates (Pretax)"]/../td[${index}]')
+non_operating_income_expense = Template('//td[normalize-space()="Non Operating Income/Expense"]/../td[${index}]')
+non_operating_interest_income = Template('//td[normalize-space()="Non-Operating Interest Income"]/../td[${index}]')
+interest_expense = Template('//td[normalize-space()="Interest Expense"]/../td[${index}]')
+pretax_income = Template('//td[normalize-space()="Pretax Income"]/../td[${index}]')
+income_tax = Template('//td[normalize-space()="Income Tax"]/../td[${index}]')
+consolidated_net_income = Template('//td[normalize-space()="Consolidated Net Income"]/../td[${index}]')
+minority_interest_expense = Template('//td[normalize-space()="Minority Interest Expense"]/../td[${index}]')
+net_income = Template('//td[normalize-space()="Net Income"]/../td[${index}]')
+eps_basic = Template('//td[normalize-space()="EPS (Basic)"]/../td[${index}]')
+eps_diluted = Template('//td[normalize-space()="EPS (Diluted)"]/../td[${index}]')
+ebitda = Template('//td[normalize-space()="EBITDA"]/../td[${index}]')
 
-total_current_assets = Template('//*[@id="maincontent"]/div[1]/table[1]/tbody/tr[20]/td[${index}]')
-total_assets = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[16]/td[${index}]')
-# total_liabilities = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[24]/td[${index}]')
-total_liabilities = Template('//td[text()="Total Liabilities"]/../td[${index}]')
-# common_equity_total = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[30]/td[${index}]')
-common_equity_total = Template('//td[contains(text(),"Common Equity (Total)")]/../td[${index}]')
-total_shareholders_equity = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[39]/td[${index}]')
-accumulated_minority_interest = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[41]/td[${index}]')
-total_equity = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[42]/td[${index}]')
-liabilities_shareholders_equity = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[43]/td[${index}]')
+total_current_assets = Template('//td[normalize-space()="Total Current Assets"]/../td[${index}]')
+total_assets = Template('//td[normalize-space()="Total Assets"]/../td[${index}]')
+total_liabilities = Template('//td[normalize-space()="Total Liabilities"]/../td[${index}]')
+common_equity_total = Template('//td[normalize-space()="Common Equity (Total)"]/../td[${index}]')
+total_shareholders_equity = Template('//td[normalize-space()="Total Shareholders\' Equity"]/../td[${index}]')
+accumulated_minority_interest = Template('//td[normalize-space()="Accumulated Minority Interest"]/../td[${index}]')
+total_equity = Template('//td[normalize-space()="Total Equity"]/../td[${index}]')
+liabilities_shareholders_equity = Template('//td[normalize-space()="Liabilities & Shareholders\' Equity"]/../td[${index}]')
 
-net_operating_cash_flow = Template('//*[@id="maincontent"]/div[1]/table[1]/tbody/tr[16]/td[${index}]')
-net_investing_cash_flow = Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[13]/td[${index}]')
-net_financing_cash_flow = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[17]/td[${index}]')
-free_cash_flow = Template('//*[@id="maincontent"]/div[1]/table[3]/tbody/tr[23]/td[${index}]')
+net_operating_cash_flow = Template('//td[normalize-space()="Net Operating Cash Flow"]/../td[${index}]')
+net_investing_cash_flow = Template('//td[normalize-space()="Net Investing Cash Flow"]/../td[${index}]')
+net_financing_cash_flow = Template('//td[normalize-space()="Net Financing Cash Flow"]/../td[${index}]')
+free_cash_flow = Template('//td[normalize-space()="Free Cash Flow"]/../td[${index}]')
+
+# TODO
+def locator_template(locator_name: str) -> Template:
+    # Template(f'//td[normalize-space()="{locator_name}"]/../td[${index}]')
+    pass
 
 locators_income_statement = {
     'Sales/Revenue': sales_revenue,
@@ -52,16 +59,16 @@ locators_income_statement = {
     'Depreciation & Amortization Expense': depreciation_amortization_expense,
     'Gross Income': gross_income,
     'SG&A Expense': sga_expense,
-    'Equity in Affiliates (Pretax)': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[10]/td[${index}]'),
+    'Equity in Affiliates (Pretax)': equity_in_affiliates_pretax,
     'Interest Expense': interest_expense,
     'Pretax Income': pretax_income,
     'Income Tax': income_tax,
     'Consolidated Net Income': consolidated_net_income,
     'Minority Interest Expense': minority_interest_expense,
     'Net Income': net_income,
-    'EPS (Basic)': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[38]/td[${index}]'),
-    'EPS (Diluted)': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[41]/td[${index}]'),
-    'EBITDA': Template('//*[@id="maincontent"]/div[1]/table[2]/tbody/tr[44]/td[${index}]'),
+    'EPS (Basic)': eps_basic,
+    'EPS (Diluted)': eps_diluted,
+    'EBITDA': ebitda,
 }
 
 locators_balance_sheet = {
