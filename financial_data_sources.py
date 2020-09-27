@@ -78,7 +78,8 @@ free_cash_flow = Template(
 
 
 def indicator_name() -> str:
-    return '//tr/td[1]/text()[normalize-space()!=""]'
+    # return '//tr/td[1]/text()[normalize-space()!=""]'
+    return '//tr/td[1]'
 
 
 def locator_template(locator_name: str) -> Template:

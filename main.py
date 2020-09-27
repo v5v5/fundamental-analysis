@@ -36,10 +36,10 @@ def format_number(number: str) -> float:
 def get_ticker_financials(ticker):
     import requests
     from lxml import html
-    import financial_sources
+    import financial_data_sources
 
     print(f'--- TICKER: {ticker} ---')
-    for statement_name, url in financial_sources.urls.items():
+    for statement_name, url in financial_data_sources.urls.items():
         print(f'--- STATEMENT: {statement_name} ---')
         link = url.substitute(ticker=ticker)
 
@@ -50,14 +50,21 @@ def get_ticker_financials(ticker):
             continue
         content = html.fromstring(page.content)
 
-        locators = financial_sources.locators[statement_name]
-        for locator_name, locator_xpath in locators.items():
-            year_index = financial_sources.indexes[0]
+        # locators = financial_sources.locators[statement_name]
+        locators = content.xpath(financial_data_sources.indicator_name())
+        # for locator_name, locator_xpath in locators.items():
+        for locator in locators:
+            locator_name = locator.text_content().strip()
+            year_index = financial_data_sources.indexes[0]
             # xpath = locator_xpath.substitute(index=year_index)
-            locator_template = financial_sources.locator_template(locator_name)
-            xpath = locator_template.substitute(index=year_index)
+            locator_template = financial_data_sources.locator_template(locator_name)
+            locator_xpath = locator_template.substitute(index=year_index)
+            # TODO save locator_name
+            # ...
+            # TODO save xpath (locator_xpath)
+            # ...
             try:
-                value = content.xpath(xpath)[0].text_content()
+                value = content.xpath(locator_xpath)[0].text_content()
             except Exception:
                 print(f'{locator_name}: NOT EXISTS')
                 continue
@@ -75,10 +82,11 @@ def get_ticker_financials(ticker):
 
 
 def analysis():
-    tickers = get_tickers()
-    for ticker in tickers:
-        # ticker = 'CMA'
-        get_ticker_financials(ticker)
+    # tickers = get_tickers()
+    # for ticker in tickers:
+    # ticker = 'CMA'
+    ticker = 'TSLA'
+    get_ticker_financials(ticker)
 
 
 if __name__ == "__main__":
