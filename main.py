@@ -46,14 +46,16 @@ def get_ticker_financials(ticker):
         try:
             page = requests.get(link)
         except:
-            print(f'Can not get link from url {link}')
+            print(f'Can not get page from url {link}')
             continue
         content = html.fromstring(page.content)
 
         locators = financial_sources.locators[statement_name]
         for locator_name, locator_xpath in locators.items():
-            current_year_index = financial_sources.indexes[0]
-            xpath = locator_xpath.substitute(index=current_year_index)
+            year_index = financial_sources.indexes[0]
+            # xpath = locator_xpath.substitute(index=year_index)
+            locator_template = financial_sources.locator_template(locator_name)
+            xpath = locator_template.substitute(index=year_index)
             try:
                 value = content.xpath(xpath)[0].text_content()
             except Exception:
@@ -75,7 +77,7 @@ def get_ticker_financials(ticker):
 def analysis():
     tickers = get_tickers()
     for ticker in tickers:
-    # ticker = 'CMA'
+        # ticker = 'CMA'
         get_ticker_financials(ticker)
 
 
