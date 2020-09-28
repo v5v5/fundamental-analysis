@@ -1,10 +1,11 @@
 # Create virtual environment
 py -m venv .venv
 # Activate virtual environment
-./venv/Scripts/Activate.ps1
+./.venv/Scripts/Activate.ps1
+# Deactivate if need
+deactivate
 # Install all module requirements
 py create_requirements
-
 pip install -r requirements.txt
 
 # Algorithm 

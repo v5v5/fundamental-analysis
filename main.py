@@ -6,7 +6,7 @@ def get_tickers():
 
 
 def format_number(number: str) -> float:
-    if (number == '-'):
+    if number == '-':
         raise ValueError()
 
     n = number.replace(
@@ -25,9 +25,9 @@ def format_number(number: str) -> float:
 
     f = float(n)
 
-    if ("B" in number):
+    if "B" in number:
         f *= 1e+9
-    elif ("M" in number):
+    elif "M" in number:
         f *= 1e+6
 
     return f
@@ -36,6 +36,7 @@ def format_number(number: str) -> float:
 def get_ticker_financials(ticker):
     import requests
     from lxml import html
+    import save_data
     import financial_data_sources
 
     print(f'--- TICKER: {ticker} ---')
@@ -57,12 +58,13 @@ def get_ticker_financials(ticker):
             locator_name = locator.text_content().strip()
             year_index = financial_data_sources.indexes[0]
             # xpath = locator_xpath.substitute(index=year_index)
-            locator_template = financial_data_sources.locator_template(locator_name)
+            locator_template = financial_data_sources.locator_template(
+                locator_name)
             locator_xpath = locator_template.substitute(index=year_index)
             # TODO save locator_name
-            # ...
-            # TODO save xpath (locator_xpath)
-            # ...
+            save_data.save_locator_name(locator_name)
+            # TODO save locator_xpath
+            save_data.save_locator_xpath(locator_xpath)
             try:
                 value = content.xpath(locator_xpath)[0].text_content()
             except Exception:
@@ -74,12 +76,12 @@ def get_ticker_financials(ticker):
             except ValueError:
                 print(f'{locator_name}: -')
                 continue
+
             except:
                 print(f'{locator_name}: CAN NOT FORMAT THE VALUE \'{value}\'')
                 continue
 
             print(f'{locator_name}: {number}')
-
 
 def analysis():
     # tickers = get_tickers()
