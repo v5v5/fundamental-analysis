@@ -51,20 +51,19 @@ def get_ticker_financials(ticker):
             continue
         content = html.fromstring(page.content)
 
-        # locators = financial_sources.locators[statement_name]
         locators = content.xpath(financial_data_sources.indicator_name())
-        # for locator_name, locator_xpath in locators.items():
-        for locator in locators:
-            locator_name = locator.text_content().strip()
+        locators_names = list(
+            map(lambda locator: locator.text_content().strip(), locators))
+
+        locators_templates = ((locator_name, financial_data_sources.locator_template(locator_name))  
+            for locator_name in locators_names)
+
+        # # TODO save locator_name & locator_xpath
+        # save_data.save ...
+        
+        for locator_name, locator_template in locators_templates:
             year_index = financial_data_sources.indexes[0]
-            # xpath = locator_xpath.substitute(index=year_index)
-            locator_template = financial_data_sources.locator_template(
-                locator_name)
             locator_xpath = locator_template.substitute(index=year_index)
-            # TODO save locator_name
-            save_data.save_locator_name(locator_name)
-            # TODO save locator_xpath
-            save_data.save_locator_xpath(locator_xpath)
             try:
                 value = content.xpath(locator_xpath)[0].text_content()
             except Exception:
@@ -83,11 +82,13 @@ def get_ticker_financials(ticker):
 
             print(f'{locator_name}: {number}')
 
+
 def analysis():
     # tickers = get_tickers()
     # for ticker in tickers:
     # ticker = 'CMA'
-    ticker = 'TSLA'
+    # ticker = 'TSLA'
+    ticker = 'TDC'
     get_ticker_financials(ticker)
 
 
