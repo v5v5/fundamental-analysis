@@ -1,30 +1,19 @@
 import csv
 
-def save_locator_name(locator_name: str):
-    print("saving locator name...")
-    print("saved locator name")
+financial_statement_parameters_file = './data/financial_statement_parameters.ini'
 
-def save_locator_xpath(locator_xpath: str):
-    print("saving locator xpath...")
-    print("saved locator xpath")
+def save_locator_template(statement_name: str, locators):
+    import configparser
+    config = configparser.ConfigParser()
+    config[statement_name] = {}
 
-def save_locator_name_and_xpath(locator_name: str, locator_xpath: str):
-    print("saving locator name...")
-    print("saved locator name")
+    print(f'saving to {financial_statement_parameters_file} file...')
+    for locator in locators:
+        locator_name = locator[0]
+        locator_template = locator[1].template
+        config[statement_name][locator_name] = locator_template
+        print(f'add locator: name={locator_name}, xpath={locator_template} to section {statement_name}')
 
-import configparser
-config = configparser.ConfigParser()
-config['DEFAULT'] = {
-    'ServerAliveInterval': '45',
-    'Compression': 'yes',
-    'CompressionLevel': '9'
-    }
-config['bitbucket.org'] = {}
-config['bitbucket.org']['User'] = 'hg'
-config['topsecret.server.com'] = {}
-topsecret = config['topsecret.server.com']
-topsecret['Port'] = '50022'     # mutates the parser
-topsecret['ForwardX11'] = 'no'  # same here
-config['DEFAULT']['ForwardX11'] = 'yes'
-with open('example.ini', 'w') as configfile:
-    config.write(configfile)
+    with open(financial_statement_parameters_file, 'a') as configfile:
+        config.write(configfile)
+    print(f'saved to {financial_statement_parameters_file} file')

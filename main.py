@@ -55,11 +55,10 @@ def get_ticker_financials(ticker):
         locators_names = list(
             map(lambda locator: locator.text_content().strip(), locators))
 
-        locators_templates = ((locator_name, financial_data_sources.locator_template(locator_name))  
+        locators_templates = ((locator_name, financial_data_sources.locator_template(locator_name))
             for locator_name in locators_names)
 
-        # # TODO save locator_name & locator_xpath
-        # save_data.save ...
+        save_data.save_locator_template(statement_name, locators_templates)
         
         for locator_name, locator_template in locators_templates:
             year_index = financial_data_sources.indexes[0]
