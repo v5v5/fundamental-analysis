@@ -32,11 +32,11 @@ def format_number(number: str) -> float:
 
     return f
 
+import save_data
 
 def get_ticker_financials(ticker):
     import requests
     from lxml import html
-    import save_data
     import financial_data_sources
 
     print(f'--- TICKER: {ticker} ---')
@@ -84,12 +84,16 @@ def get_ticker_financials(ticker):
 
 def analysis():
     # tickers = get_tickers()
-    # for ticker in tickers:
-    # ticker = 'CMA'
-    # ticker = 'TSLA'
-    ticker = 'TDC'
-    get_ticker_financials(ticker)
+    tickers = {'RIG','AMD','SQ','RCL','SPR'}
+    count = len(tickers)
+    for ticker in tickers:
+        # ticker = 'RIG'
+        print(f'ticker count = {count/len(tickers)*100}%')
+        count -= 1
+        get_ticker_financials(ticker)
 
+    print(f"analisys completed. ticker count = {count/len(tickers)*100}%'")
 
 if __name__ == "__main__":
     analysis()
+    save_data.print_financial_statement_parameters()
