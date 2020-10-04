@@ -17,7 +17,7 @@ urls = {
     statement_cash_flow: url_cash_flow_statement,
 }
 
-indexes = [6, 5, 4, 3, 2]
+indexes = {6, 5, 4, 3, 2}
 
 sales_revenue = Template(
     '//td[normalize-space()="Sales/Revenue"]/../td[${index}]')

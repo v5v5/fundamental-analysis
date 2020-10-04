@@ -28,6 +28,13 @@ def print_financial_statement_parameters():
         for key, value in config.items(section):
             print(f'{key}: {value}')
 
+# TODO save financial values of tickers with columns names as years and rows names as financials names to csv file
+def save_financial_value(ticker, locator_name, number):
+    print(f'saving to {ticker}.csv file...')
+    print(f'{locator_name} = {number}')
+    print(f'saved to {ticker}.csv file')
+    pass
+
 import os
 directory = os.path.dirname(financial_statement_parameters_file)
 if not os.path.exists(directory):

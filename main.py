@@ -52,31 +52,32 @@ def get_ticker_financials(ticker):
         locators = content.xpath(financial_data_sources.indicator_name())
         locators_names = list(
             map(lambda locator: locator.text_content().strip(), locators))
-        locators_templates = ((locator_name, financial_data_sources.locator_template(locator_name))
-            for locator_name in locators_names)
+        locators_templates = {(locator_name, financial_data_sources.locator_template(locator_name))
+            for locator_name in locators_names}
         save_data.save_locator_template(statement_name, locators_templates)
-        for locator_name, locator_template in locators_templates:
-            year_index = financial_data_sources.indexes[0]
-            locator_xpath = locator_template.substitute(index=year_index)
-            try:
-                value = content.xpath(locator_xpath)[0].text_content()
-            except Exception:
-                print(f'{locator_name}: NOT EXISTS')
-                continue
-            try:
-                number = format_number(value)
-            except ValueError:
-                print(f'{locator_name}: -')
-                continue
-            except:
-                print(f'{locator_name}: CAN NOT FORMAT THE VALUE \'{value}\'')
-                continue
-            print(f'{locator_name}: {number}')
 
+        for locator_name, locator_template in locators_templates:
+            for year_index in financial_data_sources.indexes:
+                locator_xpath = locator_template.substitute(index=year_index)
+                try:
+                    value = content.xpath(locator_xpath)[0].text_content()
+                except Exception:
+                    print(f'{locator_name}: NOT EXISTS')
+                    continue
+                try:
+                    number = format_number(value)
+                except ValueError:
+                    print(f'{locator_name}: -')
+                    continue
+                except:
+                    print(f'{locator_name}: CAN NOT FORMAT THE VALUE \'{value}\'')
+                    continue
+                save_data.save_financial_value(ticker, locator_name, number)
+
+# tickers = get_tickers()
+tickers = {'RIG','AMD'}
 
 def collect_financials_names():
-    # tickers = get_tickers()
-    tickers = {'RIG','AMD','SQ','RCL','SPR'}
     count = len(tickers)
     for ticker in tickers:
         print(f'ticker count = {count/len(tickers)*100}%')
@@ -84,13 +85,9 @@ def collect_financials_names():
         get_ticker_financials(ticker)
     print(f"analisys completed. ticker count = {count/len(tickers)*100}%'")
 
-# TODO create csv files for tickers with columns names as years and rows names as financials names
-def collect_financials():
-    pass
-
 def analysis():
     pass
 
 if __name__ == "__main__":
     collect_financials_names()
-    save_data.print_financial_statement_parameters()
+    # save_data.print_financial_statement_parameters()
