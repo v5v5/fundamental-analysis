@@ -43,23 +43,18 @@ def get_ticker_financials(ticker):
     for statement_name, url in financial_data_sources.urls.items():
         print(f'--- STATEMENT: {statement_name} ---')
         link = url.substitute(ticker=ticker)
-
         try:
             page = requests.get(link)
         except:
             print(f'Can not get page from url {link}')
             continue
         content = html.fromstring(page.content)
-
         locators = content.xpath(financial_data_sources.indicator_name())
         locators_names = list(
             map(lambda locator: locator.text_content().strip(), locators))
-
         locators_templates = ((locator_name, financial_data_sources.locator_template(locator_name))
             for locator_name in locators_names)
-
         save_data.save_locator_template(statement_name, locators_templates)
-        
         for locator_name, locator_template in locators_templates:
             year_index = financial_data_sources.indexes[0]
             locator_xpath = locator_template.substitute(index=year_index)
@@ -68,32 +63,34 @@ def get_ticker_financials(ticker):
             except Exception:
                 print(f'{locator_name}: NOT EXISTS')
                 continue
-
             try:
                 number = format_number(value)
             except ValueError:
                 print(f'{locator_name}: -')
                 continue
-
             except:
                 print(f'{locator_name}: CAN NOT FORMAT THE VALUE \'{value}\'')
                 continue
-
             print(f'{locator_name}: {number}')
 
 
-def analysis():
+def collect_financials_names():
     # tickers = get_tickers()
     tickers = {'RIG','AMD','SQ','RCL','SPR'}
     count = len(tickers)
     for ticker in tickers:
-        # ticker = 'RIG'
         print(f'ticker count = {count/len(tickers)*100}%')
         count -= 1
         get_ticker_financials(ticker)
-
     print(f"analisys completed. ticker count = {count/len(tickers)*100}%'")
 
+# TODO create csv files for tickers with columns names as years and rows names as financials names
+def collect_financials():
+    pass
+
+def analysis():
+    pass
+
 if __name__ == "__main__":
-    analysis()
+    collect_financials_names()
     save_data.print_financial_statement_parameters()
